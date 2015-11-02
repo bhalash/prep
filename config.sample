@@ -4,12 +4,12 @@
 thumb_folder="m"
 
 # SSH username@server (or alias) and remote path.
-remote_server='caira'
-remote_path='/var/www/ix.bhalash.com'
+remote_server='user@server'
+remote_path='/var/www/magicsparklyponies.com'
 
 # Image hyperlink prefix and domain name.
 url_prefix='https://'
-url_domain='ix.bhalash.com'
+url_domain='magicsparklyponies.com'
 
 # Responsive image sizes.
 responsive_sizes=(
