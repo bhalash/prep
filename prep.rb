@@ -1,17 +1,17 @@
 # The MIT License (MIT)
-# 
+#
 # Copyright (c) 2015 Mark Grealish (mark@bhalash.com)
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,6 +22,7 @@
 
 # https://github.com/net-ssh/net-scp
 require 'net/scp'
+
 # Should be included by default.
 require 'optparse'
 require 'tmpdir'
@@ -46,22 +47,22 @@ options = {
 #
 
 optsparse = OptionParser.new do |opts|
-  opts.banner = "Usage: ruby ./%s [options]" % __FILE__
-  
+  opts.banner = "Usage: ruby ./#{__FILE__} [options]"
+
   opts.on('-h', '--help', 'Display this help menu.') do
     puts "\n#{opts}\n"
     exit
   end
 
-  opts.on('-s', '--sizes [size,size]', Array, 'Srcset image sizes. (Default: %s)' % options[:sizes].join(' ')) do |sizes|
+  opts.on('-s', '--sizes [size,size]', Array, "Srcset image sizes. (Default: #{options[:sizes].join(' ')})") do |sizes|
     options[:sizes] = sizes.map(&:to_i)
   end
 
-  opts.on('-l', '--placeholder [text]', 'Hyperlink title and alt placeholder text. (Default: %s)' % options[:placeholder]) do |placeholder|
+  opts.on('-l', '--placeholder [text]', "Hyperlink title and alt placeholder text. (Default: #{options[:placeholder]})") do |placeholder|
     options[:placeholder] = placeholder
   end
 
-  opts.on('-r', '--protocol [protocol]', 'Hyperlink protocol. (Default: %s)' % options[:protocol]) do |protocol|
+  opts.on('-r', '--protocol [protocol]', "Hyperlink protocol. (Default: #{options[:protocol]})") do |protocol|
     options[:protocol] = protocol
   end
 
@@ -133,7 +134,9 @@ begin
   end
 
   # unless missing.empty?
-  #     puts "\nMissing options: #{missing.join(', ')}"      
+  #     # FIXME: Why is this block commented out?
+  #     # It looks like an output of missing options.
+  #     puts "\nMissing options: #{missing.join(', ')}"
   #     puts "\n#{optsparse}\n"
   # end
 rescue OptionParser::InvalidOption, OptionParser::MissingArgument
@@ -143,13 +146,13 @@ end
 
 Dir.mktmpdir(nil, '/var/tmp/') do |temp|
   options[:files].each do |file|
-    # Copy files to temp dir.
-    if File.exist? file 
+    if File.exist? file
+      # Copy files to temp dir.
       FileUtils.cp file, temp
     end
   end
 
-  # chdir and create temp
+  # chdir and create thmbnail directory.
   Dir.chdir(temp)
   Dir.mkdir options[:thumb_dir]
 
@@ -161,7 +164,7 @@ Dir.mktmpdir(nil, '/var/tmp/') do |temp|
   end
 
   Dir.chdir options[:thumb_dir]
-  
+
   dir_files_only('.').each_with_index do |file, index|
     # 1. Copy file in numerical order.
     # 2. For each size, shrink file to size and apply other mogrify options.
@@ -172,12 +175,6 @@ Dir.mktmpdir(nil, '/var/tmp/') do |temp|
       # TODO tomorrow: Generate HTML for images.
     end
 
-    FileUtils.rm file
+    # FileUtils.rm file
   end
-
-  # Testing.
-  exec 'open .'
-  sleep 30.seconds
-  p dir_files_only '.'
-  # Dir.mkdir options[:dir]
 end
