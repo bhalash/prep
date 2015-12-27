@@ -120,15 +120,15 @@ count=1
 # Pastable hyperlink.
 html=''
 # Config file.
-conf=~/.config/prep/config
+conf="~/.config/prep/config"
 
 #
 # Source Config File
 #
 
 if [[ ! -f $conf ]]; then
-    touch $conf
-    # Output stuff here. TODO
+    echo "Error: Configuration file not found at ${conf}"
+    exit 1
 fi
 
 source $conf
@@ -138,13 +138,13 @@ source $conf
 #
 
 if [[ "$#" < 2 ]]; then
-    echo "Error: Please provide an image and a folder!"
-    exit 1
+    echo 'Error: Please provide an image and a folder!'
+    exit 2
 fi
 
 if [[ $(has_program 'mogrify') != 0 ]]; then
     echo 'Error: mogrify executable not found in $PATH'
-    exit 2
+    exit 3
 fi
 
 #
