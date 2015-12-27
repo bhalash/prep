@@ -98,22 +98,25 @@ has_program() {
 put_clipboard() {
     #
     # Pipe variable to the clipboard.
-    # See https://en.wikipedia.org/wiki/Uname for a complete list of possible
-    # outputs.
     #
 
-    clipboard_program=''
+    clipboard_programs=(
+        'xclip -sel clip'
+        'pbcopy'
+        'putclip'
+    )
 
-    if [[ $(uname) == 'Linux' ]]; then
-        clipboard_program='xclip -sel clip'
-    elif [[ $(uname) == 'Darwin' ]]; then
-        clipboard_program='pbcopy'
-    elif [[ $(uname) =~ '^CYGWIN_' ]]; then
-        clipboard_program='putclip'
-    fi
+    clipboard=''
 
-    if [[ $(has_program $clipboard_program) == 0 ]]; then
-        eval "$clipboard_program <<< $1"
+    for prog in $clipboard_programs; do
+        if [[ $(has_program $prog) == 0 ]]; then
+            clipboard=$prog
+            break
+        fi
+    done
+
+    if [[ $clipboard != '' ]]; then
+        eval "${clipboard} <<< '${1}'"
     else
         # Echo out the string if an appropriate clipboard program does not
         # exist.
@@ -130,7 +133,7 @@ count=1
 # Pastable hyperlink.
 html=''
 # Config file.
-conf="~/.config/prep/config"
+conf=~/.config/prep/config
 
 #
 # Source Config File
