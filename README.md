@@ -23,9 +23,15 @@
 You should save this configuration file to `~/.config/prep/config` and populate it with values for your server.
 
 ### Dependencies
+Mandatory:
+
 * [ImageMagick](http://www.imagemagick.org/script/index.php).
 * [scp](http://linux.die.net/man/1/scp).
-* [xclip](http://linux.die.net/man/1/xclip) (Linux)/[putclip](http://gnuwin32.sourceforge.net/packages/cygutils.htm) (Cygwin).
+
+Optional:
+
+* Linux: [xclip](http://linux.die.net/man/1/xclip)
+* Cygwin: [putclip](http://gnuwin32.sourceforge.net/packages/cygutils.htm)
 
 ### Use
 Simple:
