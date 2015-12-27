@@ -37,7 +37,7 @@ link_html() {
     # Link alt and title text.
     local alt_text='CHANGE ME'
     # URL of image, sans filename, size and extension.
-    local image_url="${url_prefix}${url_domain}/${src_folder}/${thumb_folder}"
+    local image_url="${url_prefix}${url_domain}/${image_dir}/${thumbnail_folder}"
     # Image name without extension.
     local image_name=$(sed -e 's/\..*//' <<< $1)
     # Link src and href.
@@ -88,7 +88,7 @@ resize_image() {
 
 put_clipboard() {
     #
-    # Pipe variable ot the clipboard.
+    # Pipe variable to the clipboard.
     #
 
     uname=$(uname)
@@ -100,6 +100,15 @@ put_clipboard() {
     elif [[ $uname =~ '^CYGWIN_' ]]; then
         putclip <<< $1
     fi
+}
+
+has_program() {
+    #
+    # Check if program exists on the system.
+    #
+
+    which $1 2>&1 > /dev/null
+    echo $?
 }
 
 #
@@ -125,7 +134,7 @@ fi
 source $conf
 
 #
-# Main Loop
+# Check Images and Executables Exist
 #
 
 if [[ "$#" < 2 ]]; then
@@ -133,36 +142,48 @@ if [[ "$#" < 2 ]]; then
     exit 1
 fi
 
-if [[ ! -d $1 ]]; then
-    # Create the directory.
-    mkdir -p $1/$thumb_folder
-elif [[ -d $1/$thumb_folder ]]; then
-    # If folder eixsts, clean out thumbnails.
-    rm $1/$thumb_folder/*.jpg
+if [[ $(has_program 'mogrify') != 0 ]]; then
+    echo 'Error: mogrify executable not found in $PATH'
+    exit 2
 fi
 
-src_folder="${TMPDIR}/${1}"
+#
+# Setup Temp Directory
+#
+
+image_dir=$1
 shift
 
-for n in "$@"; do
-	if [[ -e "$1" ]]; then
-        # Original image, will not be compressed.
-		cp "$1" $src_folder/$count.jpg
-        # Compressed thumbnail sizes.
-		cp "$1" $src_folder/$thumb_folder/$count.jpg
+if [[ $(has_program 'mktemp') == 0 ]]; then
+    temp=$(mktemp -d)
+else
+    temp="${TMPDIR}prep.$(date +%s)"
+    mkdir $temp
+fi
+
+#
+# Setup Thumbnail Directory
+#
+
+mkdir "${temp}/${thumbnail_folder}"
+
+#
+# Copy Images to Folders
+#
+
+for image in "$@"; do
+	if [[ -e "${image}" ]]; then
+		cp "${image}" "${temp}/${count}.jpg"
+		cp "${image}" "${temp}/${thumbnail_folder}/${count}.jpg"
 		let count++
-		shift
 	fi
 done
 
-cd $src_folder/$thumb_folder
+cd "${temp}/${thumbnail_folder}"
 
-if [[ $(ls -1 *.jpg 2> /dev/null | wc -l) == 0 ]]; then
-    # Exit if the script did not find files to copy.
-    echo "No images selected!"
-    rm -r $(pwd)
-    exit 1
-fi
+#
+# Main Loop
+#
 
 for img in *.jpg; do
     # Resize the 'master' and thumbnail images.
@@ -178,6 +199,7 @@ put_clipboard $html
 # behind mogrify.
 wait
 
+cd ${temp}
+
 # Upload images over scp.
-scp -r $(sed -e "s,/${thumb_folder}$,," <<< $PWD) \
-    "${remote_server}:${remote_path}/${src_folder}" 2>&1 > /dev/null &
+scp -r . "${remote_server}:${remote_path}/${image_dir}" 2>&1 > /dev/null &
