@@ -102,6 +102,8 @@ put_clipboard() {
     # outputs.
     #
 
+    clipboard_program=''
+
     if [[ $(uname) == 'Linux' ]]; then
         clipboard_program='xclip -sel clip'
     elif [[ $(uname) == 'Darwin' ]]; then
