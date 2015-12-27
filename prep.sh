@@ -91,7 +91,8 @@ has_executable() {
     # Check if program exists on the system.
     #
 
-    which $(awk '{ print $1 }' <<< $1) 2>&1 > /dev/null
+    # Remove everything after the first column.
+    which ${1// *//} 2>&1 > /dev/null
     echo $?
 }
 
