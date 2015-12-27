@@ -11,11 +11,11 @@
 
     # SSH username@server (or alias) and remote path.
     remote_server='user@server'
-    remote_path='/var/www/magicsparklyponies.com'
+    remote_path='/var/www/example.com'
 
     # Image hyperlink prefix and domain name.
     url_prefix='https://'
-    url_domain='magicsparklyponies.com'
+    url_domain='example.com'
 
     # Responsive image sizes.
     responsive_sizes=(
@@ -38,8 +38,8 @@ Simple:
 
 Code along this line will be automagially added to your clipboard, ready to paste into a blog post:
 
-    <a title="CHANGE ME" href="https://magicsparklyponies.com/folder/m/1_840.jpg">
-        <img src="https://magicsparklyponies.com/folder/m/1_840.jpg" srcset="https://magicsparklyponies.com/folder/m/1_840.jpg 840w, https://magicsparklyponies.com/folder/m/1_768.jpg 768w, https://magicsparklyponies.com/folder/m/1_640.jpg 640w, https://magicsparklyponies.com/folder/m/1_424.jpg 424w" alt="CHANGE ME" />
+    <a title="CHANGE ME" href="https://example.com/folder/m/1_840.jpg">
+        <img src="https://example.com/folder/m/1_840.jpg" srcset="https://example.com/folder/m/1_840.jpg 840w, https://example.com/folder/m/1_768.jpg 768w, https://example.com/folder/m/1_640.jpg 640w, https://example.com/folder/m/1_424.jpg 424w" alt="CHANGE ME" />
     </a>
 
 The file structure is (assuming default names):
