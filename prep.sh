@@ -1,19 +1,19 @@
 #!/usr/bin/env zsh
 
 # The MIT License (MIT)
-# 
+#
 # Copyright (c) 2015 Mark Grealish (mark@bhalash.com)
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -31,7 +31,7 @@ conf=~/.config/prep/config
 if [[ ! -f $conf ]]; then
     touch $conf
     # Output stuff here. TODO
-fi 
+fi
 
 source $conf
 
@@ -49,8 +49,8 @@ html=''
 #
 
 link_html() {
-    # 
-    # Add an extra line of link HTML. In Emmet: 
+    #
+    # Add an extra line of link HTML. In Emmet:
     # a>img[src="image", srcset="image"]
     #
 
@@ -82,7 +82,7 @@ link_html() {
 }
 
 resize_image() {
-    # 
+    #
     # Create reduced copies of an image.
     #
 
@@ -90,7 +90,7 @@ resize_image() {
         if [[ $size != 1024 ]]; then
             local filename="$(sed -e 's/\..*//' <<< $1)_${size}.jpg"
             cp $1 $filename
-        else 
+        else
             local filename=$1
         fi
 
@@ -175,7 +175,7 @@ done
 put_clipboard $html
 
 until [[ $(ps cax | grep mogrify; echo $?) != 0 ]]; do
-    # If many images are queued to process the rest of the script can lag 
+    # If many images are queued to process the rest of the script can lag
     # behind mogrify. This checks every half second if mogrify has finished.
     sleep 0.5
 done
