@@ -100,11 +100,8 @@ put_clipboard() {
     # Pipe variable to the clipboard.
     #
 
-    local clipboard_programs=(
-        'xclip -sel clip'
-        'pbcopy'
-        'putclip'
-    )
+    local -a clipboard_programs
+    clipboard_programs=('xclip -sel clip' 'pbcopy' 'putclip')
 
     local clipboard=''
 
@@ -134,6 +131,8 @@ count=1
 html=''
 # Config file.
 conf=~/.config/prep/config
+# Mandatory dependencies.
+dependencies=('scp' 'mogrify')
 
 #
 # Source Config File
@@ -155,7 +154,7 @@ if [[ "$#" < 2 ]]; then
     exit 2
 fi
 
-for dependency in ('scp' 'mogrify') do
+for dependency in $dependencies; do
     if [[ $(has_program $dependency) != 0 ]]; then
         echo "Error: ${dependency} executable not found in \$PATH"
         exit 3
