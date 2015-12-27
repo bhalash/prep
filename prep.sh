@@ -100,13 +100,13 @@ put_clipboard() {
     # Pipe variable to the clipboard.
     #
 
-    clipboard_programs=(
+    local clipboard_programs=(
         'xclip -sel clip'
         'pbcopy'
         'putclip'
     )
 
-    clipboard=''
+    local clipboard=''
 
     for prog in $clipboard_programs; do
         if [[ $(has_program $prog) == 0 ]]; then
