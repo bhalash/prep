@@ -1,4 +1,4 @@
-# Save as ~/.config/prep/config
+# Save to ~/.config/prep/config and add your settings.
 
 # Name of image thumbnail folder.
 thumbnail_folder='m'

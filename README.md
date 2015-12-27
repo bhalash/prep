@@ -4,10 +4,10 @@
 ### Configuration
 [config.sample](/config.sample) contains an example configuration for prep:
 
-    # Save as ~/.config/prep/config
+    # Save to ~/.config/prep/config and add your settings.
 
     # Name of image thumbnail folder.
-    thumb_folder='m'
+    thumbnail_folder='m'
 
     # SSH username@server (or alias) and remote path.
     remote_server='user@server'
