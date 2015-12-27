@@ -86,29 +86,37 @@ resize_image() {
     done
 }
 
-put_clipboard() {
-    #
-    # Pipe variable to the clipboard.
-    #
-
-    uname=$(uname)
-
-    if [[ $uname == 'Linux' ]]; then
-        xclip -sel clip <<< $1
-    elif [[ $uname == 'Darwin' ]]; then
-        pbcopy <<< $1
-    elif [[ $uname =~ '^CYGWIN_' ]]; then
-        putclip <<< $1
-    fi
-}
-
 has_program() {
     #
     # Check if program exists on the system.
     #
 
-    which $1 2>&1 > /dev/null
+    which $(awk '{ print $1 }' <<< $1) 2>&1 > /dev/null
     echo $?
+}
+
+put_clipboard() {
+    #
+    # Pipe variable to the clipboard.
+    # See https://en.wikipedia.org/wiki/Uname for a complete list of possible
+    # outputs.
+    #
+
+    if [[ $(uname) == 'Linux' ]]; then
+        clipboard_program='xclip -sel clip'
+    elif [[ $(uname) == 'Darwin' ]]; then
+        clipboard_program='pbcopy'
+    elif [[ $(uname) =~ '^CYGWIN_' ]]; then
+        clipboard_program='putclip'
+    fi
+
+    if [[ $(has_program $clipboard_program) == 0 ]]; then
+        eval "$clipboard_program <<< $1"
+    else
+        # Echo out the string if an appropriate clipboard program does not
+        # exist.
+        echo $1
+    fi
 }
 
 #
