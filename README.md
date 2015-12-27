@@ -33,12 +33,13 @@ Simple:
     prep <folder name> <file 1> <file 2> <file 3> ... <file 10>
 
 ### Output
-
-Code along this line will be automagially added to your clipboard, ready to paste into a blog post:
+Code along this line will be added to your clipboard, ready to paste into a blog post:
 
     <a title="CHANGE ME" href="https://example.com/folder/m/1_840.jpg">
         <img src="https://example.com/folder/m/1_840.jpg" srcset="https://example.com/folder/m/1_840.jpg 840w, https://example.com/folder/m/1_768.jpg 768w, https://example.com/folder/m/1_640.jpg 640w, https://example.com/folder/m/1_424.jpg 424w" alt="CHANGE ME" />
     </a>
+
+The HTML will be echoed instead if a clipboard program is not available on your system.
 
 The file structure is (assuming default names):
 
