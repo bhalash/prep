@@ -154,11 +154,11 @@ fi
 image_dir=$1
 shift
 
-if [[ $(has_program 'mktemp') == 0 ]]; then
-    temp=$(mktemp -d)
-else
+if [[ $(has_program 'mktemp') != 0 ]]; then
     temp="${TMPDIR}prep.$(date +%s)"
     mkdir $temp
+else
+    temp=$(mktemp -d)
 fi
 
 #
@@ -199,7 +199,7 @@ put_clipboard $html
 # behind mogrify.
 wait
 
-cd ${temp}
+cd $temp
 
 # Upload images over scp.
 scp -r . "${remote_server}:${remote_path}/${image_dir}" 2>&1 > /dev/null &
