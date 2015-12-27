@@ -23,28 +23,6 @@
 # THE SOFTWARE.
 
 #
-# Source Config File
-#
-
-conf=~/.config/prep/config
-
-if [[ ! -f $conf ]]; then
-    touch $conf
-    # Output stuff here. TODO
-fi
-
-source $conf
-
-#
-# Script Variables
-#
-
-# Incremented count of images.
-count=1
-# Pastable hyperlink.
-html=''
-
-#
 # Functions
 #
 
@@ -123,6 +101,28 @@ put_clipboard() {
         putclip <<< $1
     fi
 }
+
+#
+# Source Config File
+#
+
+conf=~/.config/prep/config
+
+if [[ ! -f $conf ]]; then
+    touch $conf
+    # Output stuff here. TODO
+fi
+
+source $conf
+
+#
+# Script Variables
+#
+
+# Incremented count of images.
+count=1
+# Pastable hyperlink.
+html=''
 
 #
 # Main Loop
