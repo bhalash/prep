@@ -1,8 +1,8 @@
 ## prep
 [prep](https://github.com/bhalash/prep) is a zshell script which I used to gather, crop, compress and upload images to my blog, as well as generate the HTML code and add it to my clipboard.
 
-### Configuation
-[config.sample](/config.sample) contains an example configuation for prep:
+### Configuration
+[config.sample](/config.sample) contains an example configuration for prep:
 
     # Save as ~/.config/prep/config
 
@@ -18,11 +18,9 @@
     url_domain='example.com'
 
     # Responsive image sizes.
-    responsive_sizes=(
-       1024 840 768 640 424
-    )
+    responsive_sizes=(1024 840 768 640 424)
 
-You should save this configuation file to `~/.config/prep/config` and populate it with values for your server.
+You should save this configuration file to `~/.config/prep/config` and populate it with values for your server.
 
 ### Dependencies
 * [ImageMagick](http://www.imagemagick.org/script/index.php).
@@ -54,17 +52,12 @@ The file structure is (assuming default names):
         └── 1_840.jpg
 
 ### TODO
-Long list:
-
-* Add better check for host OS (Linux, OS X or [Cygwin](https://www.cygwin.com/)).
-* Add test for dependencies.
-* Spawn configuration file and prompt for content, if it does not exist.
-* Add back temp folder to handle uploaded images.
-* Handle args forfor server and responsive image size variables.
-* Gentler handling of original images.
+* Spawn default configuration if one does not exist.
+* Robustify configuration in general.
+* Robustify upload and add alternate options (copy to local folder, or use FTP, etc.).
 
 ### License
 Prep is available under the [MIT License](https://opensource.org/licenses/MIT). Go wild.
 
 ### Support
-None whatsoever. I discliam all responsibility for the risk that prep might eat your hard disk or impact your libido.
+None whatsoever. I disclaim all responsibility for the risk that prep might eat your hard disk or impact your libido.
