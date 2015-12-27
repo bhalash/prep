@@ -91,7 +91,7 @@ has_executable() {
     # Check if program exists on the system.
     #
 
-    which --skip-alias $(awk '{ print $1 }' <<< $1) 2>&1 > /dev/null
+    which $(awk '{ print $1 }' <<< $1) 2>&1 > /dev/null
     echo $?
 }
 
