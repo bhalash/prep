@@ -86,12 +86,12 @@ resize_image() {
     done
 }
 
-has_program() {
+has_executable() {
     #
     # Check if program exists on the system.
     #
 
-    which $(awk '{ print $1 }' <<< $1) 2>&1 > /dev/null
+    which --skip-alias $(awk '{ print $1 }' <<< $1) 2>&1 > /dev/null
     echo $?
 }
 
@@ -106,7 +106,7 @@ put_clipboard() {
     local clipboard=''
 
     for prog in $clipboards; do
-        if [[ $(has_program $prog) == 0 ]]; then
+        if [[ $(has_executable $prog) == 0 ]]; then
             clipboard=$prog
             break
         fi
@@ -155,7 +155,7 @@ if [[ "$#" < 2 ]]; then
 fi
 
 for dependency in $dependencies; do
-    if [[ $(has_program $dependency) != 0 ]]; then
+    if [[ $(has_executable $dependency) != 0 ]]; then
         echo "Error: ${dependency} executable not found in \$PATH"
         exit 3
     fi
@@ -168,7 +168,7 @@ done
 image_dir=$1
 shift
 
-if [[ $(has_program 'mktemp') != 0 ]]; then
+if [[ $(has_executable 'mktemp') != 0 ]]; then
     temp="${TMPDIR}prep.$(date +%s)"
     mkdir $temp
 else
