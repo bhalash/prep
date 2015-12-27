@@ -187,7 +187,8 @@ mkdir "${temp}/${thumbnail_folder}"
 
 for image in "$@"; do
     if [[ -e "${image}" ]]; then
-        cp "${image}" "${temp}/${count}.jpg"
+        # Replace filename with count, but preserve extension.
+        cp "${image}" "${temp}/${image//${image%.*}/${count}}"
         cp "${image}" "${temp}/${thumbnail_folder}/${count}.jpg"
         let count++
     fi
