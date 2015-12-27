@@ -185,11 +185,11 @@ mkdir "${temp}/${thumbnail_folder}"
 #
 
 for image in "$@"; do
-	if [[ -e "${image}" ]]; then
-		cp "${image}" "${temp}/${count}.jpg"
-		cp "${image}" "${temp}/${thumbnail_folder}/${count}.jpg"
-		let count++
-	fi
+    if [[ -e "${image}" ]]; then
+        cp "${image}" "${temp}/${count}.jpg"
+        cp "${image}" "${temp}/${thumbnail_folder}/${count}.jpg"
+        let count++
+    fi
 done
 
 cd "${temp}/${thumbnail_folder}"
