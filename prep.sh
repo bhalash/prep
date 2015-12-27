@@ -155,10 +155,12 @@ if [[ "$#" < 2 ]]; then
     exit 2
 fi
 
-if [[ $(has_program 'mogrify') != 0 ]]; then
-    echo 'Error: mogrify executable not found in $PATH'
-    exit 3
-fi
+for dependency in ('scp' 'mogrify') do
+    if [[ $(has_program $dependency) != 0 ]]; then
+        echo "Error: ${dependency} executable not found in \$PATH"
+        exit 3
+    fi
+done
 
 #
 # Setup Temp Directory
