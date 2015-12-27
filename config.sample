@@ -1,7 +1,7 @@
 # Save as ~/.config/prep/config
 
 # Name of image thumbnail folder.
-thumb_folder="m"
+thumbnail_folder="m"
 
 # SSH username@server (or alias) and remote path.
 remote_server='user@server'
