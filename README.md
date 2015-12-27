@@ -1,13 +1,13 @@
 ## prep
-[prep](https://github.com/bhalash/prep) is a zshell script which I used to gather, crop, compress and upload images to my blog, as well as generate the HTML code and add it to my clipboard. 
+[prep](https://github.com/bhalash/prep) is a zshell script which I used to gather, crop, compress and upload images to my blog, as well as generate the HTML code and add it to my clipboard.
 
 ### Configuation
-[config.sample](/config.sample) contains an example configuation for prep: 
+[config.sample](/config.sample) contains an example configuation for prep:
 
     # Save as ~/.config/prep/config
 
     # Name of image thumbnail folder.
-    thumb_folder="m"
+    thumb_folder='m'
 
     # SSH username@server (or alias) and remote path.
     remote_server='user@server'
@@ -30,12 +30,12 @@ You should save this configuation file to `~/.config/prep/config` and populate i
 * [xclip](http://linux.die.net/man/1/xclip) (Linux)/[putclip](http://gnuwin32.sourceforge.net/packages/cygutils.htm) (Cygwin).
 
 ### Use
-Simple: 
+Simple:
 
     prep <folder name> <file 1> <file 2> <file 3> ... <file 10>
-    
+
 ### Output
-    
+
 Code along this line will be automagially added to your clipboard, ready to paste into a blog post:
 
     <a title="CHANGE ME" href="https://magicsparklyponies.com/folder/m/1_840.jpg">
@@ -60,11 +60,11 @@ Long list:
 * Add test for dependencies.
 * Spawn configuration file and prompt for content, if it does not exist.
 * Add back temp folder to handle uploaded images.
-* Handle args forfor server and responsive image size variables. 
+* Handle args forfor server and responsive image size variables.
 * Gentler handling of original images.
 
-### License 
-Prep is available under the [MIT License](https://opensource.org/licenses/MIT). Go wild. 
+### License
+Prep is available under the [MIT License](https://opensource.org/licenses/MIT). Go wild.
 
 ### Support
-None whatsoever. I discliam all responsibility for the risk that prep might eat your hard disk or impact your libido. 
+None whatsoever. I discliam all responsibility for the risk that prep might eat your hard disk or impact your libido.
