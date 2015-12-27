@@ -205,14 +205,19 @@ for img in *.jpg; do
     html+=$(link_html $img)
 done
 
-cd $temp
+if [[ $html != '' ]]; then
+    cd $temp
 
-# Add HTML to the clipboard.
-put_clipboard $html
+    # Add HTML to the clipboard.
+    put_clipboard $html
 
-# If many images are queued to process the rest of the script can lag
-# behind mogrify.
-wait
+    # If many images are queued to process the rest of the script can lag
+    # behind mogrify.
+    wait
 
-# Upload images over scp.
-scp -r . "${remote_server}:${remote_path}/${image_dir}" 2>&1 > /dev/null &
+    # Upload images over scp.
+    scp -r . "${remote_server}:${remote_path}/${image_dir}" 2>&1 > /dev/null &
+else
+    echo 'Error: No valid images were processed by the script.'
+    exit 4
+fi
