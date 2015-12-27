@@ -39,7 +39,7 @@ link_html() {
     # URL of image, sans filename, size and extension.
     local image_url="${url_prefix}${url_domain}/${image_dir}/${thumbnail_folder}"
     # Image name without extension.
-    local image_name=$(sed -e 's/\..*//' <<< $1)
+    local image_name=${1%.*}
     # Link src and href.
     local src="${image_url}/${image_name}_${responsive_sizes[2]}.jpg"
 
@@ -66,7 +66,7 @@ resize_image() {
 
     for size in $responsive_sizes; do
         if [[ $size != 1024 ]]; then
-            local filename="$(sed -e 's/\..*//' <<< $1)_${size}.jpg"
+            local filename="${1%.*}_${size}.jpg"
             cp $1 $filename
         else
             local filename=$1
