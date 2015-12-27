@@ -103,19 +103,6 @@ put_clipboard() {
 }
 
 #
-# Source Config File
-#
-
-conf=~/.config/prep/config
-
-if [[ ! -f $conf ]]; then
-    touch $conf
-    # Output stuff here. TODO
-fi
-
-source $conf
-
-#
 # Script Variables
 #
 
@@ -123,6 +110,19 @@ source $conf
 count=1
 # Pastable hyperlink.
 html=''
+# Config file.
+conf=~/.config/prep/config
+
+#
+# Source Config File
+#
+
+if [[ ! -f $conf ]]; then
+    touch $conf
+    # Output stuff here. TODO
+fi
+
+source $conf
 
 #
 # Main Loop
@@ -141,7 +141,7 @@ elif [[ -d $1/$thumb_folder ]]; then
     rm $1/$thumb_folder/*.jpg
 fi
 
-src_folder="$1"
+src_folder="${TMPDIR}/${1}"
 shift
 
 for n in "$@"; do
@@ -174,11 +174,9 @@ done
 # Add HTML to the clipboard.
 put_clipboard $html
 
-until [[ $(ps cax | grep mogrify; echo $?) != 0 ]]; do
-    # If many images are queued to process the rest of the script can lag
-    # behind mogrify. This checks every half second if mogrify has finished.
-    sleep 0.5
-done
+# If many images are queued to process the rest of the script can lag
+# behind mogrify.
+wait
 
 # Upload images over scp.
 scp -r $(sed -e "s,/${thumb_folder}$,," <<< $PWD) \
