@@ -192,14 +192,14 @@ for img in *.jpg; do
     html+=$(link_html $img)
 done
 
+cd $temp
+
 # Add HTML to the clipboard.
 put_clipboard $html
 
 # If many images are queued to process the rest of the script can lag
 # behind mogrify.
 wait
-
-cd $temp
 
 # Upload images over scp.
 scp -r . "${remote_server}:${remote_path}/${image_dir}" 2>&1 > /dev/null &
