@@ -72,15 +72,15 @@ resize_image() {
             cp $1 $filename
         fi
 
-        # 1. -quality Reduce quality to 60%
-        # 2. -format JPG format.
-        # 3. -resize Resize to ${size}, but only if bigger.
-        # 4. -interlace Progressively encode (interlace)
-        #    See: https://blog.codinghorror.com/progressive-image-rendering/
-        # 4. -filter Apply a smoothing Lanzos filter
-        # 5. -strip Strip all meta data.
-        # 6. -define Set a maximum output filesize of 150kb
-        # 7. $filename
+        # -quality Reduce quality to 60%
+        # -format JPG format.
+        # -resize Resize to ${size}, but only if bigger.
+        # -interlace Progressively encode (interlace)
+        # See: https://blog.codinghorror.com/progressive-image-rendering/
+        # -filter Apply a smoothing Lanzos filter
+        # -strip Strip all meta data.
+        # -define Set a maximum output filesize of 150kb
+        # $filename
         mogrify -quality 60 -format jpg -resize "${size}"x\> -interlace plane \
             -filter Lanczos -strip -define jpeg:extent=150kb ${filename:=$1} &
     done
