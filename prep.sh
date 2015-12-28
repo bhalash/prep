@@ -150,8 +150,8 @@ source $conf
 # Check Images and Executables Exist
 #
 
-if [[ "$#" < 2 ]]; then
-    echo 'Error: Please provide an image and a folder!'
+if [[ $# -lt 2 ]]; then
+    echo 'Error: Please provide at least one image and a folder!'
     exit 2
 fi
 
