@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+set -x
+
 # The MIT License (MIT)
 #
 # Copyright (c) 2015 Mark Grealish (mark@bhalash.com)
@@ -187,10 +189,10 @@ mkdir "${temp}/${thumbnail_folder}"
 #
 
 for image in "$@"; do
-    if [[ -e "${image}" ]]; then
+    if [[ -e $image ]]; then
         # Replace filename with count, but preserve extension.
-        cp "${image}" "${temp}/${image//${image%.*}/${count}}"
-        cp "${image}" "${temp}/${thumbnail_folder}/${count}.jpg"
+        cp "$image" "${temp}/${image//${image%.*}/${count}}"
+        cp "$image" "${temp}/${thumbnail_folder}/${count}.jpg"
         let count++
     fi
 done
