@@ -72,14 +72,13 @@ resize_image() {
             cp $1 $filename
         fi
 
-        # -quality Reduce quality to 60%
-        # -format JPG format.
-        # -resize Resize to ${size}, but only if bigger.
-        # -interlace Progressively encode (interlace)
-        # See: https://blog.codinghorror.com/progressive-image-rendering/
-        # -filter Apply a smoothing Lanzos filter
-        # -strip Strip all meta data.
-        # -define Set a maximum output filesize of 150kb
+        # -quality        Reduce quality to 60%.
+        # -format         JPG format.
+        # -resize         Resize to ${size}, but only if bigger.
+        # -interlace      Progressively encode. See https://goo.gl/LyOJM7
+        # -filter         Apply a smoothing Lanzos filter.
+        # -strip          Strip all meta data.
+        # -define         Set a maximum output filesize of 150kb.
         # ${filename:=$1} Set $filename to value of $1 if variable is empty.
         mogrify -quality 60 -format jpg -resize "${size}"x\> -interlace plane \
             -filter Lanczos -strip -define jpeg:extent=150kb ${filename:=$1} &
@@ -92,7 +91,7 @@ has_executable() {
     #
 
     # Remove everything after the first column.
-    which ${1// *//} 2>&1 > /dev/null
+    which ${1// */} 2>&1 > /dev/null
     echo $?
 }
 
