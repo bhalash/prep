@@ -64,12 +64,12 @@ resize_image() {
     # Create reduced copies of an image.
     #
 
+    local filename=''
+
     for size in $responsive_sizes; do
         if [[ $size != 1024 ]]; then
-            local filename="${1%.*}_${size}.jpg"
+            filename="${1%.*}_${size}.jpg"
             cp $1 $filename
-        else
-            local filename=$1
         fi
 
         # 1. -quality Reduce quality to 60%
@@ -82,7 +82,7 @@ resize_image() {
         # 6. -define Set a maximum output filesize of 150kb
         # 7. $filename
         mogrify -quality 60 -format jpg -resize "${size}"x\> -interlace plane \
-            -filter Lanczos -strip -define jpeg:extent=150kb $filename &
+            -filter Lanczos -strip -define jpeg:extent=150kb ${filename:=$1} &
     done
 }
 
@@ -113,7 +113,7 @@ put_clipboard() {
         fi
     done
 
-    if [[ $clipboard != '' ]]; then
+    if [[ -n $clipboard ]]; then
         eval "${clipboard} <<< '${1}'"
     else
         # Echo out the string if an appropriate clipboard program does not
