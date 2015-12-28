@@ -1,7 +1,5 @@
 #!/usr/bin/env zsh
 
-set -x
-
 # The MIT License (MIT)
 #
 # Copyright (c) 2015 Mark Grealish (mark@bhalash.com)
@@ -204,7 +202,7 @@ cd "${temp}/${thumbnail_folder}"
 #
 
 for img in *.jpg; do
-    # Resize the 'master' and thumbnail images.
+    # Resize thumbnail images.
     resize_image $img
     # Add a line to the final HTML.
     html+=$(link_html $img)
