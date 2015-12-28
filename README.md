@@ -25,8 +25,8 @@ You should save this configuration file to `~/.config/prep/config` and populate 
 ### Dependencies
 Mandatory:
 
-* [ImageMagick](http://www.imagemagick.org/script/index.php).
-* [scp](http://linux.die.net/man/1/scp).
+* [ImageMagick](http://www.imagemagick.org/script/index.php)
+* [scp](http://linux.die.net/man/1/scp)
 
 Optional:
 
