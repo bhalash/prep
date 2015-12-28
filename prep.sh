@@ -208,7 +208,7 @@ for img in *.jpg; do
     html+=$(link_html $img)
 done
 
-if [[ $html != '' ]]; then
+if [[ -z $html ]]; then
     cd $temp
 
     # Add HTML to the clipboard.
