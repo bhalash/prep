@@ -80,7 +80,7 @@ resize_image() {
         # -filter Apply a smoothing Lanzos filter
         # -strip Strip all meta data.
         # -define Set a maximum output filesize of 150kb
-        # $filename
+        # ${filename:=$1} Set $filename to value of $1 if variable is empty.
         mogrify -quality 60 -format jpg -resize "${size}"x\> -interlace plane \
             -filter Lanczos -strip -define jpeg:extent=150kb ${filename:=$1} &
     done
