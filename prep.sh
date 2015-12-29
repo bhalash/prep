@@ -112,13 +112,8 @@ to_clipboard() {
         fi
     done
 
-    if [[ -n $clipboard ]]; then
-        $clipboard <<< "$1"
-    else
-        # Echo out the string if an appropriate clipboard program does not
-        # exist.
-        echo $1
-    fi
+    # Echo out the string if an appropriate clipboard program does not exist.
+    ${clipboard:=cat} <<< "$1"
 }
 
 #
