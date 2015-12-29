@@ -101,7 +101,7 @@ to_clipboard() {
     #
 
     local -a clipboards
-    local clipboard=''
+    local clipboard='cat'
 
     clipboards=('xclip -sel clip' 'pbcopy' 'putclip')
 
@@ -113,7 +113,7 @@ to_clipboard() {
     done
 
     # Echo out the string if an appropriate clipboard program does not exist.
-    ${clipboard:=cat} <<< "$1"
+    $clipboard <<< "$1"
 }
 
 #
