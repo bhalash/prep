@@ -112,7 +112,7 @@ to_clipboard() {
         fi
     done
 
-    # Echo out the string if an appropriate clipboard program does not exist.
+    # Print out the string if an appropriate clipboard program does not exist.
     $clipboard <<< "$1"
 }
 
