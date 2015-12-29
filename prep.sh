@@ -32,14 +32,14 @@ link_html() {
     # a>img[src="image", srcset="image"]
     #
 
-    # srcset image list.
-    local srcset=''
-    # Link alt and title text.
-    local alt_text='CHANGE ME'
-    # URL of image, sans filename, size and extension.
-    local image_url="${url_prefix}${url_domain}/${image_dir}/${thumbnail_folder}"
     # Image name without extension.
     local image_name=${1%.*}
+    # Link alt and title text.
+    local alt_text=${2:='CHANGE ME'}
+    # srcset image list.
+    local srcset=''
+    # URL of image, sans filename, size and extension.
+    local image_url="${url_prefix}${url_domain}/${image_dir}/${thumbnail_folder}"
     # Link src and href.
     local src="${image_url}/${image_name}_${responsive_sizes[2]}.jpg"
 
