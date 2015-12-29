@@ -28,7 +28,7 @@
 
 link_html() {
     #
-    # Add an extra line of link HTML. In Emmet:
+    # Generate Image HTML Code
     # a>img[src="image", srcset="image"]
     #
 
@@ -61,7 +61,7 @@ link_html() {
 
 resize_image() {
     #
-    # Create reduced copies of an image.
+    # Compress Image for Web
     #
 
     local filename=''
@@ -87,7 +87,7 @@ resize_image() {
 
 has_executable() {
     #
-    # Check if program exists on the system.
+    # Test if Executable Exists
     #
 
     # Remove everything after the first column.
@@ -97,7 +97,7 @@ has_executable() {
 
 to_clipboard() {
     #
-    # Pipe variable to the clipboard.
+    # Send Text to Clipboard
     #
 
     local -a clipboards
@@ -115,6 +115,15 @@ to_clipboard() {
     # Print out the string if an appropriate clipboard program does not exist.
     $clipboard <<< "$1"
 }
+
+#
+# Debug
+#
+
+if [[ $1 == 'DEBUG' ]]; then
+    set -x
+    shift
+fi
 
 #
 # Script Variables
