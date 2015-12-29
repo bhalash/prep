@@ -95,7 +95,7 @@ has_executable() {
     echo $?
 }
 
-put_clipboard() {
+to_clipboard() {
     #
     # Pipe variable to the clipboard.
     #
@@ -113,7 +113,7 @@ put_clipboard() {
     done
 
     if [[ -n $clipboard ]]; then
-        eval "${clipboard} <<< '${1}'"
+        $clipboard <<< "$1"
     else
         # Echo out the string if an appropriate clipboard program does not
         # exist.
@@ -211,7 +211,7 @@ if [[ -n $html ]]; then
     cd $temp
 
     # Add HTML to the clipboard.
-    put_clipboard $html
+    to_clipboard $html
 
     # If many images are queued to process the rest of the script can lag
     # behind mogrify.
