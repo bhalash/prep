@@ -101,9 +101,9 @@ to_clipboard() {
     #
 
     local -a clipboards
-    clipboards=('xclip -sel clip' 'pbcopy' 'putclip')
-
     local clipboard=''
+
+    clipboards=('xclip -sel clip' 'pbcopy' 'putclip')
 
     for prog in $clipboards; do
         if [[ $(has_executable $prog) == 0 ]]; then
