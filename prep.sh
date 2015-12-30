@@ -107,13 +107,13 @@ to_clipboard() {
 
     for prog in $clipboards; do
         if [[ $(has_executable $prog) == 0 ]]; then
-            clipboard=$prog
+            alias clipboard=$prog
             break
         fi
     done
 
     # Print out the string if an appropriate clipboard program does not exist.
-    $clipboard <<< "$1"
+    eval $clipboard <<< "$1"
 }
 
 #
