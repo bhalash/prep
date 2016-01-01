@@ -107,7 +107,7 @@ to_clipboard() {
 
     for prog in $clipboards; do
         if [[ $(has_executable $prog) == 0 ]]; then
-            alias clipboard=$prog
+            clipboard=$prog
             break
         fi
     done
