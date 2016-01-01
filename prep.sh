@@ -91,7 +91,7 @@ has_executable() {
     #
 
     # Remove everything after the first column.
-    which ${1// */} 2>&1 > /dev/null
+    which ${1// */} > /dev/null 2>&1
     echo $?
 }
 
@@ -222,7 +222,7 @@ if [[ -n $html ]]; then
     wait
 
     # Upload images over scp.
-    scp -r . "${remote_server}:${remote_path}/${image_dir}" 2>&1 > /dev/null &
+    scp -r . "${remote_server}:${remote_path}/${image_dir}" > /dev/null 2>&1 &
 else
     echo 'Error: No valid images were processed by the script.'
     exit 4
