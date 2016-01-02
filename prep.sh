@@ -91,7 +91,7 @@ has_executable() {
     #
 
     # Remove everything after the first column.
-    which ${1// */} > /dev/null 2>&1
+    which ${1%% *} > /dev/null 2>&1
     echo $?
 }
 
