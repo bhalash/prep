@@ -33,7 +33,7 @@ link_html() {
     #
 
     # Image name without extension.
-    local image_name=${1%%.*}
+    local image_name=${1%.*}
     # Link alt and title text.
     local alt_text=${2:='CHANGE ME'}
     # srcset image list.
@@ -68,7 +68,7 @@ resize_image() {
 
     for size in $responsive_sizes; do
         if [[ $size != 1024 ]]; then
-            filename="${1%%.*}_${size}.jpg"
+            filename="${1%.*}_${size}.jpg"
             cp $1 $filename
         fi
 
@@ -192,7 +192,7 @@ mkdir "${temp}/${thumbnail_folder}"
 for image in "$@"; do
     if [[ -e $image ]]; then
         # Replace filename with count, but preserve extension.
-        cp "$image" "${temp}/${image//${image%%.*}/${count}}"
+        cp "$image" "${temp}/${image//${image%.*}/${count}}"
         cp "$image" "${temp}/${thumbnail_folder}/${count}.jpg"
         let count++
     fi
