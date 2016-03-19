@@ -29,7 +29,7 @@
 link_html() {
     #
     # Generate Image HTML Code
-    # a>img[src="image", srcset="image"]
+    # figure>a>img[src="image", srcset="image"]
     #
 
     # Image name without extension.
@@ -43,6 +43,10 @@ link_html() {
     # Link src and href.
     local src="${image_url}/${image_name}_${responsive_sizes[2]}.jpg"
 
+    # TODO: @media query HTML sizes.
+    # See: https://mattwilcox.net/web-development/keeping-srcset-and-sizes-under-control
+    local sizes=''
+
     for n in $(seq 2 ${#responsive_sizes}); do
         # I skip the first, largest size because it does not suit my blog.
         size=${responsive_sizes[$n]}
@@ -53,8 +57,12 @@ link_html() {
         fi
     done
 
-    link="<a title=\"${alt_text}\" href=\"${src}\"><img src=\"${src}\" "
+    link='<figure>'
+    link+="<a title=\"${alt_text}\" href=\"${src}\"><img src=\"${src}\" "
+    # TODO
+    # link+="srcset=\"${srcset}\" sizes=\"${sizes}\" alt=\"${alt_text}\" /></a>"
     link+="srcset=\"${srcset}\" alt=\"${alt_text}\" /></a>"
+    link+='</figure>'
 
     echo $link
 }
@@ -67,10 +75,8 @@ resize_image() {
     local filename=''
 
     for size in $responsive_sizes; do
-        if [[ $size != 1024 ]]; then
-            filename="${1%.*}_${size}.jpg"
-            cp $1 $filename
-        fi
+        filename="${1%.*}_${size}.jpg"
+        cp $1 $filename
 
         # -quality        Reduce quality to 60%.
         # -format         JPG format.
@@ -80,7 +86,7 @@ resize_image() {
         # -strip          Strip all meta data.
         # -define         Set a maximum output filesize of 150kb.
         # ${filename:=$1} Set $filename to value of $1 if variable is empty.
-        mogrify -quality 60 -format jpg -resize "${size}"x\> -interlace plane \
+        mogrify -quality 60 -format jpg -resize "$size"x\> -interlace plane \
             -filter Lanczos -strip -define jpeg:extent=150kb ${filename:=$1} &
     done
 }
@@ -90,7 +96,6 @@ has_executable() {
     # Test if Executable Exists
     #
 
-    # Remove everything after the first column.
     which ${1%% *} > /dev/null 2>&1
     echo $?
 }
@@ -101,19 +106,19 @@ to_clipboard() {
     #
 
     local -a clipboards
-    local clipboard='cat'
-
     clipboards=('xclip -sel clip' 'pbcopy' 'putclip')
+
+    # Dump the string to STDOUT if an appropriate clipboard program does not exist.
+    local found_clipboard='cat'
 
     for prog in $clipboards; do
         if [[ $(has_executable $prog) == 0 ]]; then
-            clipboard=$prog
+            found_clipboard=$prog
             break
         fi
     done
 
-    # Print out the string if an appropriate clipboard program does not exist.
-    eval $clipboard <<< "$1"
+    eval $found_clipboard <<< "$1"
 }
 
 #
