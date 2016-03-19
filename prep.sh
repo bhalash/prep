@@ -47,8 +47,7 @@ link_html() {
     # See: https://mattwilcox.net/web-development/keeping-srcset-and-sizes-under-control
     local sizes=''
 
-    for n in $(seq 2 ${#responsive_sizes}); do
-        # I skip the first, largest size because it does not suit my blog.
+    for n in $(seq 1 ${#responsive_sizes}); do
         size=${responsive_sizes[$n]}
         srcset+="${image_url}/${image_name}_${size}.jpg ${size}w"
 
