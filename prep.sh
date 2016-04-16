@@ -46,6 +46,7 @@ link_html() {
     local src="${image_url}/${image_name}_${responsive_sizes[2]}.jpg"
 
     for n in $(seq 1 ${#responsive_sizes}); do
+        size=${responsive_sizes[$n]}
         srcset+="${image_url}/${image_name}_${size}.jpg ${size}w"
 
         if [[ $n < ${#responsive_sizes} ]]; then
@@ -78,8 +79,8 @@ resize_image() {
         # -strip          Strip all meta data.
         # -define         Set a maximum output filesize of 150kb.
         # ${filename:=$1} Set $filename to value of $1 if variable is empty.
-        mogrify -quality 60 -format jpg -resize "$size"x\> -interlace plane \
-            -filter Lanczos -strip -define jpeg:extent=150kb ${filename:=$1} &
+        mogrify -quality 70 -format jpg -resize "$size"x\> -interlace plane \
+            -filter Lanczos -strip ${filename:=$1} &
     done
 }
 
