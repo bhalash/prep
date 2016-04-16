@@ -38,17 +38,14 @@ link_html() {
     local alt_text=${2:='CHANGE ME'}
     # srcset image list.
     local srcset=''
+    # Tentative breakpoint action.
+    local breakpoints="(min-width: ${responsive_sizes[-1]}) 100%"
     # URL of image, sans filename, size and extension.
     local image_url="${url_prefix}${url_domain}/${image_dir}/${thumbnail_folder}"
     # Link src and href.
     local src="${image_url}/${image_name}_${responsive_sizes[2]}.jpg"
 
-    # TODO: @media query HTML sizes.
-    # See: https://mattwilcox.net/web-development/keeping-srcset-and-sizes-under-control
-    local sizes=''
-
     for n in $(seq 1 ${#responsive_sizes}); do
-        size=${responsive_sizes[$n]}
         srcset+="${image_url}/${image_name}_${size}.jpg ${size}w"
 
         if [[ $n < ${#responsive_sizes} ]]; then
@@ -56,12 +53,8 @@ link_html() {
         fi
     done
 
-    link='<figure>'
     link+="<a title=\"${alt_text}\" href=\"${src}\"><img src=\"${src}\" "
-    # TODO
-    # link+="srcset=\"${srcset}\" sizes=\"${sizes}\" alt=\"${alt_text}\" /></a>"
-    link+="srcset=\"${srcset}\" alt=\"${alt_text}\" /></a>"
-    link+='</figure>'
+    link+="srcset=\"${srcset}\" sizes=\"${breakpoints}\" alt=\"${alt_text}\" /></a>"
 
     echo $link
 }
@@ -214,6 +207,9 @@ for img in *.jpg; do
     # Add a line to the final HTML.
     html+=$(link_html $img)
 done
+
+# Wrap all link code in a single HTML5 figure element.
+html="<figure>${html}</figure>"
 
 if [[ -n $html ]]; then
     cd $temp
