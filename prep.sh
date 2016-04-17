@@ -43,7 +43,7 @@ link_html() {
     # URL of image, sans filename, size and extension.
     local image_url="${url_prefix}${url_domain}/${image_dir}/${thumbnail_folder}"
     # Link src and href.
-    local src="${image_url}/${image_name}_${responsive_sizes[2]}.jpg"
+    local src="${image_url}/${image_name}_${responsive_sizes[1]}.jpg"
 
     for n in $(seq 1 ${#responsive_sizes}); do
         size=${responsive_sizes[$n]}
