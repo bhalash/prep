@@ -134,7 +134,7 @@ html=''
 # Config file.
 conf=~/.config/prep/config
 # Mandatory dependencies.
-dependencies=('scp' 'mogrify')
+dependencies=('rsync' 'mogrify')
 
 #
 # Source Config File
@@ -222,8 +222,7 @@ if [[ -n $html ]]; then
     # behind mogrify.
     wait
 
-    # Upload images over scp.
-    scp -r . "${remote_server}:${remote_path}/${image_dir}" > /dev/null 2>&1 &
+    rsync -av --chmod=g+rwx -p . "${remote_server}:${remote_path}/${image_dir}" > /dev/null 2>&1 &
 else
     echo 'Error: No valid images were processed by the script.'
     exit 4
