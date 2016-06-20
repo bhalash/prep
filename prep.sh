@@ -26,12 +26,12 @@
 # Functions
 #
 
-link_html() {
-    #
-    # Generate Image HTML Code
-    # figure>a>img[src="image", srcset="image"]
-    #
+#
+# Generate Image HTML Code
+# figure>a>img[src="image", srcset="image"]
+#
 
+link_html() {
     # Image name without extension.
     local image_name=${1%.*}
     # Link alt and title text.
@@ -60,44 +60,44 @@ link_html() {
     echo $link
 }
 
-resize_image() {
-    #
-    # Compress Image for Web
-    #
+#
+# Compress Image for Web
+# -quality        Reduce quality to 60%.
+# -format         JPG format.
+# -resize         Resize to ${size}, but only if bigger.
+# -interlace      Progressively encode. See https://goo.gl/LyOJM7
+# -filter         Apply a smoothing Lanzos filter.
+# -strip          Strip all meta data.
+# -define         Set a maximum output filesize of 150kb.
+# ${filename:=$1} Set $filename to value of $1 if variable is empty.
+#
 
+resize_image() {
     local filename=''
 
     for size in $responsive_sizes; do
         filename="${1%.*}_${size}.jpg"
         cp $1 $filename
 
-        # -quality        Reduce quality to 60%.
-        # -format         JPG format.
-        # -resize         Resize to ${size}, but only if bigger.
-        # -interlace      Progressively encode. See https://goo.gl/LyOJM7
-        # -filter         Apply a smoothing Lanzos filter.
-        # -strip          Strip all meta data.
-        # -define         Set a maximum output filesize of 150kb.
-        # ${filename:=$1} Set $filename to value of $1 if variable is empty.
         mogrify -quality 70 -format jpg -resize "$size"x\> -interlace plane \
             -filter Lanczos -strip ${filename:=$1} &
     done
 }
 
-has_executable() {
-    #
-    # Test if Executable Exists
-    #
+#
+# Test if Executable Exists
+#
 
+has_executable() {
     which ${1%% *} > /dev/null 2>&1
     echo $?
 }
 
-to_clipboard() {
-    #
-    # Send Text to Clipboard
-    #
+#
+# Send Text to Clipboard
+#
 
+to_clipboard() {
     local -a clipboards
     clipboards=('xclip -sel clip' 'pbcopy' 'putclip')
 
