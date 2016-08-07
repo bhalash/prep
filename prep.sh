@@ -1,7 +1,5 @@
 #!/usr/bin/env zsh
 
-set -x
-
 # The MIT License (MIT)
 #
 # Copyright (c) 2015 Mark Grealish (mark@bhalash.com)
