@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+set -x
+
 # The MIT License (MIT)
 #
 # Copyright (c) 2015 Mark Grealish (mark@bhalash.com)
@@ -39,7 +41,8 @@ link_html() {
     # srcset image list.
     local srcset=''
     # Tentative breakpoint action.
-    local breakpoints="(min-width: ${responsive_sizes[-1]}) 100%"
+    # local breakpoints="(min-width: ${responsive_sizes[-1]}) 100%"
+    local breakpoints=''
     # URL of image, sans filename, size and extension.
     local image_url="${url_prefix}${url_domain}/${image_dir}/${thumbnail_folder}"
     # Link src and href.
@@ -56,8 +59,10 @@ link_html() {
 
     link+="<a title=\"${alt_text}\" href=\"${src}\"><img src=\"${src}\" "
     link+="srcset=\"${srcset}\" sizes=\"${breakpoints}\" alt=\"${alt_text}\" /></a>"
+    link+='
+    '
 
-    echo $link
+    echo -e $link
 }
 
 #
@@ -210,7 +215,8 @@ for img in *.jpg; do
 done
 
 # Wrap all link code in a single HTML5 figure element.
-html="<figure>${html}</figure>"
+html="<figure>
+${html}</figure>"
 
 if [[ -n $html ]]; then
     cd $temp
