@@ -35,7 +35,7 @@ link_html() {
     # Image name without extension.
     local image_name=${1%.*}
     # Link alt and title text.
-    local alt_text=${2:='CHANGE ME'}
+    local alt_text=${2:='FIXME'}
     # srcset image list.
     local srcset=''
     # Tentative breakpoint action.
