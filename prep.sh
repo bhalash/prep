@@ -217,7 +217,7 @@ html="<figure>
 ${html}</figure>"
 
 # Strip trailing whitespcae.
-html=$(sed 's/^ *//g' <<< $html)
+html=$(sed -e 's/^ *//g;s/<a/    <a/g' <<< $html)
 
 if [[ -n $html ]]; then
     cd $temp
