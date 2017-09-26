@@ -55,11 +55,11 @@ function link_html {
         fi
     done
 
-    cat << END
-        <a title="${ALT_TEXT}" href="${SRC}">
-            <img src="${SRC}" srcset="${SRCSET}" sizes="${BREAKPOINTS}" alt="${ALT_TEXT}" />
-        </a>
-    END
+cat <<- END
+    <a title="${ALT_TEXT}" href="${SRC}">
+        <img src="${SRC}" srcset="${SRCSET}" sizes="${BREAKPOINTS}" alt="${ALT_TEXT}" />
+    </a>
+END
 }
 
 #
@@ -78,7 +78,7 @@ function resize_image {
     local FILENAME=''
 
     for SIZE in $RESPONSIVE_SIZES; do
-        FILENAME="${1%.*}_${size}.jpg"
+        FILENAME="${1%.*}_${SIZE}.jpg"
         cp $1 $FILENAME
 
         mogrify -quality 70 -format jpg -resize "$SIZE"x\> -interlace plane \
@@ -120,9 +120,8 @@ function to_clipboard {
 # Debug
 #
 
-if [[ $1 == 'DEBUG' ]]; then
+if [[ $DEBUG == 0 ]]; then
     set -x
-    shift
 fi
 
 #
@@ -130,24 +129,24 @@ fi
 #
 
 # Incremented count of images.
-count=1
+COUNT=1
 # Pastable hyperlink.
-html=''
+HTML=''
 # Config file.
-conf=~/.config/prep/config
+CONF=~/.config/prep/config
 # Mandatory dependencies.
-dependencies=('rsync' 'mogrify')
+DEPENDENCIES=('rsync' 'mogrify')
 
 #
 # Source Config File
 #
 
-if [[ ! -f $conf ]]; then
-    echo "Error: Configuration file not found at ${conf}"
+if [[ ! -f $CONF ]]; then
+    echo "Error: Configuration file not found at ${CONF}"
     exit 1
 fi
 
-source $conf
+source $CONF
 
 #
 # Check Images and Executables Exist
@@ -158,9 +157,9 @@ if [[ $# -lt 2 ]]; then
     exit 2
 fi
 
-for dependency in $dependencies; do
-    if [[ $(has_executable $dependency) != 0 ]]; then
-        echo "Error: ${dependency} executable not found in \$PATH"
+for DEP in $DEPENDENCIES; do
+    if [[ $(has_executable $DEP) != 0 ]]; then
+        echo "Error: ${DEP} executable not found in \$PATH"
         exit 3
     fi
 done
@@ -169,66 +168,70 @@ done
 # Setup Temp Directory
 #
 
-image_dir=$1
+IMAGE_DIR=$1
 shift
 
 if [[ $(has_executable 'mktemp') != 0 ]]; then
-    temp="${TMPDIR}prep.$(date +%s)"
-    mkdir $temp
+    TEMP="${TMPDIR}prep.$(date +%s)"
+    mkdir $TEMP
 else
-    temp=$(mktemp -d)
+    TEMP=$(mktemp -d)
 fi
 
 #
 # Setup Thumbnail Directory
 #
 
-mkdir "${temp}/${thumbnail_folder}"
+mkdir "${TEMP}/${THUMBNAIL_FOLDER}"
 
 #
 # Copy Images to Folders
 #
 
-for image in "$@"; do
-    if [[ -e $image ]]; then
+for IMAGE in "$@"; do
+    if [[ -e $IMAGE ]]; then
         # Replace filename with count, but preserve extension.
-        cp "$image" "${temp}/${image//${image%.*}/${count}}"
-        cp "$image" "${temp}/${thumbnail_folder}/${count}.jpg"
-        let count++
+        cp "$IMAGE" "${TEMP}/${IMAGE//${IMAGE%.*}/${COUNT}}"
+        cp "$IMAGE" "${TEMP}/${THUMBNAIL_FOLDER}/${COUNT}.jpg"
+        let COUNT++
     fi
 done
 
-cd "${temp}/${thumbnail_folder}"
+cp "${TEMP}/${THUMBNAIL_FOLDER}"
 
 #
 # Main Loop
 #
 
-for img in *.jpg; do
+for IMG in *.jpg; do
     # Resize thumbnail images.
-    resize_image $img
+    resize_image $IMG
     # Add a line to the final HTML.
-    html+=$(link_html $img)
+    HTML+=$(link_html $IMG)
 done
 
 # Wrap all link code in a single HTML5 figure element.
-html="<figure>
-${html}</figure>"
+
+read -r -d '' HTML << END
+    <figure>
+        ${HTML}
+    </figure>
+END
 
 # Strip trailing whitespcae.
-html=$(sed -e 's/^ *//g;s/<a/    <a/g' <<< $html)
+HTML=$(sed -e 's/^ *//g;s/<a/    <a/g' <<< $HTML)
 
-if [[ -n $html ]]; then
-    cd $temp
+if [[ -n $HTML ]]; then
+    cd $TEMP
 
     # Add HTML to the clipboard.
-    to_clipboard $html
+    to_clipboard $HTML
 
     # If many images are queued to process the rest of the script can lag
     # behind mogrify.
     wait
 
-    rsync -av --chmod=g+rwx -p . "${remote_server}:${remote_path}/${image_dir}" > /dev/null 2>&1 &
+    rsync -av --chmod=g+rwx -p . "${REMOTE_SERVER}:${REMOTE_PATH}/${IMAGE_DIR}" > /dev/null 2>&1 &
 else
     echo 'Error: No valid images were processed by the script.'
     exit 4
