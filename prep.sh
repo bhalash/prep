@@ -33,34 +33,33 @@
 
 function link_html {
     # Image name without extension.
-    local image_name=${1%.*}
+    local IMAGE_NAME=${1%.*}
     # Link alt and title text.
-    local alt_text=${2:='FIXME'}
+    local ALT_TEXT=${2:='FIXME'}
     # srcset image list.
-    local srcset=''
+    local SRCSET=''
     # Tentative breakpoint action.
-    # local breakpoints="(min-width: ${responsive_sizes[-1]}) 100%"
-    local breakpoints=''
+    # local breakpoints="(min-width: ${RESPONSIVE_SIZES[-1]}) 100%"
+    local BREAKPOINTS=''
     # URL of image, sans filename, size and extension.
-    local image_url="${url_prefix}${url_domain}/${image_dir}/${thumbnail_folder}"
+    local IMAGE_URL="${URL_PREFIX}${URL_DOMAIN}/${IMAGE_DIR}/${THUMBNAIL_FOLDER}"
     # Link src and href.
-    local src="${image_url}/${image_name}_${responsive_sizes[1]}.jpg"
+    local src="${IMAGE_URL}/${IMAGE_NAME}_${RESPONSIVE_SIZES[1]}.jpg"
 
-    for n in $(seq 1 ${#responsive_sizes}); do
-        size=${responsive_sizes[$n]}
-        srcset+="${image_url}/${image_name}_${size}.jpg ${size}w"
+    for N in $(seq 1 ${#RESPONSIVE_SIZES}); do
+        SIZE=${RESPONSIVE_SIZES[$N]}
+        SRCSET+="${IMAGE_URL}/${IMAGE_NAME}_${SIZE}.jpg ${SIZE}w"
 
-        if [[ $n < ${#responsive_sizes} ]]; then
-            srcset+=', '
+        if [[ $N < ${#RESPONSIVE_SIZES} ]]; then
+            SRCSET+=', '
         fi
     done
 
-    link+="<a title=\"${alt_text}\" href=\"${src}\"><img src=\"${src}\" "
-    link+="srcset=\"${srcset}\" sizes=\"${breakpoints}\" alt=\"${alt_text}\" /></a>"
-    link+='
-    '
-
-    echo -e $link
+    cat << END
+        <a title=\"${ALT_TEXT}\" href=\"${SRC}\">
+            <img src=\"${SRC}\" srcset=\"${SRCSET}\" sizes=\"${BREAKPOINTS}\" alt=\"${ALT_TEXT}\" />
+        </a>
+    END
 }
 
 #
@@ -76,14 +75,14 @@ function link_html {
 #
 
 function resize_image {
-    local filename=''
+    local FILENAME=''
 
-    for size in $responsive_sizes; do
-        filename="${1%.*}_${size}.jpg"
-        cp $1 $filename
+    for SIZE in $RESPONSIVE_SIZES; do
+        FILENAME="${1%.*}_${size}.jpg"
+        cp $1 $FILENAME
 
-        mogrify -quality 70 -format jpg -resize "$size"x\> -interlace plane \
-            -filter Lanczos -strip ${filename:=$1} &
+        mogrify -quality 70 -format jpg -resize "$SIZE"x\> -interlace plane \
+            -filter Lanczos -strip ${FILENAME:=$1} &
     done
 }
 
