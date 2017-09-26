@@ -101,20 +101,20 @@ function has_executable {
 #
 
 function to_clipboard {
-    local -a clipboards
-    clipboards=('xclip -sel clip' 'pbcopy' 'putclip')
+    local -a CLIPBOARDS
+    CLIPBOARDS=('xclip -sel clip' 'pbcopy' 'putclip')
 
     # Dump the string to STDOUT if an appropriate clipboard program does not exist.
-    local found_clipboard='cat'
+    local FOUND_CLIPBOARD='cat'
 
-    for prog in $clipboards; do
-        if [[ $(has_executable $prog) == 0 ]]; then
-            found_clipboard=$prog
+    for PROGRAM in $CLIPBOARDS; do
+        if [[ $(has_executable $PROGRAM) == 0 ]]; then
+            FOUND_CLIPBOARD=$PROGRAM
             break
         fi
     done
 
-    eval $found_clipboard <<< "$1"
+    eval $FOUND_CLIPBOARD <<< "$1"
 }
 
 #
