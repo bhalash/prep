@@ -56,8 +56,8 @@ function link_html {
     done
 
     cat << END
-        <a title=\"${ALT_TEXT}\" href=\"${SRC}\">
-            <img src=\"${SRC}\" srcset=\"${SRCSET}\" sizes=\"${BREAKPOINTS}\" alt=\"${ALT_TEXT}\" />
+        <a title="${ALT_TEXT}" href="${SRC}">
+            <img src="${SRC}" srcset="${SRCSET}" sizes="${BREAKPOINTS}" alt="${ALT_TEXT}" />
         </a>
     END
 }
