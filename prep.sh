@@ -31,7 +31,7 @@
 # figure>a>img[src="image", srcset="image"]
 #
 
-link_html() {
+function link_html {
     # Image name without extension.
     local image_name=${1%.*}
     # Link alt and title text.
@@ -75,7 +75,7 @@ link_html() {
 # ${filename:=$1} Set $filename to value of $1 if variable is empty.
 #
 
-resize_image() {
+function resize_image {
     local filename=''
 
     for size in $responsive_sizes; do
@@ -91,7 +91,7 @@ resize_image() {
 # Test if Executable Exists
 #
 
-has_executable() {
+function has_executable {
     which ${1%% *} > /dev/null 2>&1
     echo $?
 }
@@ -100,7 +100,7 @@ has_executable() {
 # Send Text to Clipboard
 #
 
-to_clipboard() {
+function to_clipboard {
     local -a clipboards
     clipboards=('xclip -sel clip' 'pbcopy' 'putclip')
 
